@@ -60,8 +60,7 @@ The free plan sleeps after 15 minutes without visitors; the next visit takes abo
 
 To try the production setup locally: `npm run build` in `frontend/`, then `waitress-serve --port=8000 app:app` in `backend/` and open http://localhost:8000.
 
-## To finish
+## Adding templates and examples
 
-1. **Desi templates.** In `backend/desi_templates.py`, replace each `FILL_ME` with the template ID from imgflip.com/memetemplates and correct `box_count`. Entries left as `FILL_ME` are skipped.
-2. **Example images.** Generate the three prompts in `frontend/src/data/examples.ts` with the app and set each example's `render` to the chosen take's `{ imageUrl, templateId }` (and its `captions` to match). Until then the page draws them as coloured blocks.
-3. **GitHub link.** Set `GITHUB_URL` in `frontend/src/components/Footer.tsx`.
+- **Desi templates** live in `backend/desi_templates.py`: the template ID from imgflip.com (the number in its URL), a name, `box_count`, and `use_when` so the writer knows when it fits. Templates with their catchphrase already on the image use `box_count: 1`.
+- **Examples** on the page come from `frontend/src/data/examples.ts`. Each `render` is a take the app generated for that prompt; without one, the page draws a coloured stand-in.

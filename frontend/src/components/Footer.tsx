@@ -1,4 +1,4 @@
-const GITHUB_URL = "https://github.com/";
+const GITHUB_URL = "https://github.com/Sameergit23/Punchline";
 
 function GitHubMark() {
   return (
