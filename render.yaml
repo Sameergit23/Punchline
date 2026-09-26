@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: punchline
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: TRUSTED_PROXIES
+        value: "1"
+      - key: OPENAI_BASE_URL
+        value: https://generativelanguage.googleapis.com/v1beta/openai/
+      - key: OPENAI_MODEL
+        value: gemini-3.8-flash
+      - key: OPENAI_FALLBACK_MODEL
+        value: gemini-3.5-flash-lite
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: IMGFLIP_USERNAME
+        sync: false
+      - key: IMGFLIP_PASSWORD
+        sync: false

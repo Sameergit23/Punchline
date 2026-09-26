@@ -1,0 +1,238 @@
+@import "tailwindcss";
+
+@theme {
+  --color-*: initial;
+  --color-cream: #fff6e5;
+  --color-ink: #111111;
+  --color-yellow: #ffd43b;
+  --color-pink: #ff7ab6;
+  --color-blue: #6ca8ff;
+  --color-green: #7be495;
+  --color-body: #2a2a2a;
+  --color-muted: #5a5a5a;
+  --color-white: #ffffff;
+  --color-paper: #f4ead8;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-*: initial;
+  --font-display: "Archivo Black", "Hind", system-ui, sans-serif;
+  --font-sans: "Space Grotesk", "Hind", system-ui, sans-serif;
+  --font-meme: "Anton", Impact, "Arial Narrow", sans-serif;
+  --font-deva: "Teko", "Hind", sans-serif;
+
+  --breakpoint-md: 56.25rem; /* 900px: below this the layout stacks */
+
+  --shadow-*: initial;
+  --shadow-hard-sm: 4px 4px 0 0 var(--color-ink);
+  --shadow-hard-md: 6px 6px 0 0 var(--color-ink);
+  --shadow-hard-lg: 8px 8px 0 0 var(--color-ink);
+  --shadow-hard-xl: 12px 12px 0 0 var(--color-ink);
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --radius-cta: 32px;
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+  --animate-toast: toast-in 180ms ease-out;
+
+  @keyframes marquee {
+    to {
+      translate: -50% 0;
+    }
+  }
+  @keyframes shimmer {
+    from {
+      background-position: 100% 0;
+    }
+    to {
+      background-position: -100% 0;
+    }
+  }
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      translate: 0 12px;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-cream);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    color: var(--color-ink);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+  ::selection {
+    background: var(--color-yellow);
+    color: var(--color-ink);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* 1200px content column with 120px side padding on desktop. */
+  .container-page {
+    box-sizing: content-box;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+  @media (min-width: 900px) {
+    .container-page {
+      padding-inline: 48px;
+    }
+  }
+  @media (min-width: 1280px) {
+    .container-page {
+      padding-inline: 120px;
+    }
+  }
+
+  /* Cards and stickers tilt by --tilt; phones cap it at 1.5deg. */
+  .tilt {
+    rotate: clamp(-1.5deg, var(--tilt, 0deg), 1.5deg);
+  }
+  @media (min-width: 900px) {
+    .tilt {
+      rotate: var(--tilt, 0deg);
+    }
+  }
+
+  .sticker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    border: 3px solid var(--color-ink);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-hard-sm);
+    padding: 0.4em 0.8em;
+    color: var(--color-ink);
+    font-weight: 700;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .card {
+    border: 3px solid var(--color-ink);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-hard-lg);
+  }
+
+  /* Buttons lift on hover and press into their shadow on click. */
+  .btn {
+    --lift: 4px;
+    --shadow-color: var(--color-ink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 3px solid var(--color-ink);
+    border-radius: 12px;
+    box-shadow: var(--lift) var(--lift) 0 0 var(--shadow-color);
+    color: var(--color-ink);
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      translate 120ms ease,
+      box-shadow 120ms ease,
+      background-color 120ms ease;
+  }
+  .btn:hover:not(:disabled) {
+    translate: -2px -2px;
+    box-shadow: calc(var(--lift) + 2px) calc(var(--lift) + 2px) 0 0 var(--shadow-color);
+  }
+  .btn:active:not(:disabled) {
+    translate: 2px 2px;
+    box-shadow: calc(var(--lift) - 2px) calc(var(--lift) - 2px) 0 0 var(--shadow-color);
+  }
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+  .btn-lg {
+    --lift: 6px;
+  }
+  .btn-ink {
+    --shadow-color: var(--color-pink);
+    background: var(--color-ink);
+    color: var(--color-cream);
+  }
+
+  .icon-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background: var(--color-white);
+  }
+  .icon-btn:hover:not(:disabled) {
+    background: var(--color-yellow);
+  }
+
+  /* White meme text with a 2px black outline. */
+  .meme-text {
+    color: var(--color-white);
+    text-shadow:
+      2px 2px 0 var(--color-ink),
+      -2px 2px 0 var(--color-ink),
+      2px -2px 0 var(--color-ink),
+      -2px -2px 0 var(--color-ink),
+      2px 0 0 var(--color-ink),
+      -2px 0 0 var(--color-ink),
+      0 2px 0 var(--color-ink),
+      0 -2px 0 var(--color-ink);
+  }
+
+  .halftone {
+    background-image: radial-gradient(rgb(17 17 17 / 0.13) 1.6px, transparent 1.8px);
+    background-size: 14px 14px;
+  }
+
+  .skeleton {
+    background: linear-gradient(
+        100deg,
+        transparent 20%,
+        rgb(255 255 255 / 0.75) 50%,
+        transparent 80%
+      )
+      var(--color-paper);
+    background-size: 200% 100%;
+    animation: var(--animate-shimmer);
+  }
+}
